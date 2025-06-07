@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moto</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    <div x-data="{ name: '', submitted: false }">
+      <template x-if="!submitted">
+        <form @submit.prevent="submitted = true">
+          <input x-model="name" placeholder="Enter your name" required />
+          <button type="submit">Next</button>
+        </form>
+      </template>
+      <template x-if="submitted">
+        <p>Hello <span x-text="name"></span> 👋</p>
+      </template>
+    </div>
+  </body>
+</html>
