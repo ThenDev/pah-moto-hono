@@ -1,25 +1,79 @@
+// /public/index.html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Moto</title>
+    <title>Moto Payment</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css"
+    />
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
+    <script defer src="/static/moto-customer-form.js"></script>
   </head>
   <body>
-    <div x-data="{ name: '', submitted: false }">
-      <template x-if="!submitted">
-        <form @submit.prevent="submitted = true">
-          <input x-model="name" placeholder="Enter your name" required />
+    <main class="container" x-data="formStepper()">
+      <template x-if="step === 1">
+        <form @submit.prevent="nextStep">
+          <h2>Step 1: Customer Name</h2>
+          <input
+            type="text"
+            x-model="form.name"
+            placeholder="Full Name"
+            required
+          />
           <button type="submit">Next</button>
         </form>
       </template>
-      <template x-if="submitted">
-        <p>Hello <span x-text="name"></span> 👋</p>
+
+      <template x-if="step === 2">
+        <form @submit.prevent="nextStep">
+          <h2>Step 2: Phone Number</h2>
+          <input type="tel" x-model="form.phone" placeholder="Phone" required />
+          <button @click="step--" type="button">Back</button>
+          <button type="submit">Next</button>
+        </form>
       </template>
-    </div>
+
+      <template x-if="step === 3">
+        <form @submit.prevent="nextStep">
+          <h2>Step 3: Postcode</h2>
+          <input
+            type="text"
+            x-model="form.postcode"
+            placeholder="Postcode"
+            required
+          />
+          <button @click="step--" type="button">Back</button>
+          <button type="submit">Next</button>
+        </form>
+      </template>
+
+      <template x-if="step === 4">
+        <form @submit.prevent="submitForm">
+          <h2>Step 4: Confirm</h2>
+          <ul>
+            <li><strong>Name:</strong> <span x-text="form.name"></span></li>
+            <li><strong>Phone:</strong> <span x-text="form.phone"></span></li>
+            <li>
+              <strong>Postcode:</strong> <span x-text="form.postcode"></span>
+            </li>
+          </ul>
+          <button @click="step--" type="button">Back</button>
+          <button type="submit">Submit</button>
+        </form>
+      </template>
+
+      <template x-if="step === 5">
+        <article>
+          <h2>Submitted</h2>
+          <p>Customer information saved successfully.</p>
+        </article>
+      </template>
+    </main>
   </body>
 </html>
