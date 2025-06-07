@@ -4,10 +4,11 @@ import { serveStatic } from "hono/cloudflare-workers";
 
 const app = new Hono();
 
-// Use the proper static manifest
+// Serve all static assets and index.html correctly using the `site` setting in wrangler.toml
+// Even with [site] set, you still need to pass an empty manifest object
 app.use("/*", serveStatic({ root: "./", manifest: {} }));
 
-// POST route for customer data
+// API endpoint to receive customer data
 app.post("/api/customer", async (c) => {
   const data = await c.req.json();
   console.log("Customer submitted:", data);
